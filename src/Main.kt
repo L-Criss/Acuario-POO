@@ -1,5 +1,7 @@
 import acuario.Acuario
+import acuario.PezPayaso
 import acuario.TanqueTorre
+import acuario.Tiburon
 
 
 fun construirAcuario(){
@@ -13,6 +15,16 @@ fun construirAcuario(){
 
 }
 
+fun crearPeces() {
+
+    val tiburon = Tiburon()
+    val pezPayaso = PezPayaso()
+
+    println("Color del tiburon: ${tiburon.color}")
+    println("Color del pez payaso: ${pezPayaso.color}")
+}
+
 fun main(){
-    construirAcuario()
+    //construirAcuario()
+    crearPeces()
 }
