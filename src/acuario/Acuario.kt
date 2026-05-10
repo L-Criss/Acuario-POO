@@ -1,38 +1,64 @@
 package acuario
+import kotlin.math.PI
 
-class Acuario (largo: Int = 100, ancho: Int = 20, alto: Int = 40){
-    var ancho:Int = ancho;
-    var alto:Int = alto;
-    var largo:Int = largo;
-    var tanque = 0.0
+open class Acuario(
 
-    var volumen: Int
-        get() = ancho * alto * largo / 1000 // 1000 cm^3 = 1 l
-    //
-    set(valor) {
+    open var largo: Int = 100,
+    open var ancho: Int = 20,
+    open var alto: Int = 40
+
+) {
+
+    open var forma = "Rectangulo"
+
+    open var volumen: Int
+        get() = ancho * alto * largo / 1000
+        set(valor) {
             alto = (valor * 1000) / (ancho * largo)
         }
 
+    open var agua: Double = 0.0
+    get() = volumen * 0.9
 
-    constructor(numeroDePeces: Int) : this() {
+    constructor(numeroPeces: Int) : this() {
 
-        // 2000 cm3 por pez + 10% extra
-        tanque = numeroDePeces * 2000 * 1.1
+        val tanque = numeroPeces * 2000 * 1.1
 
-        // calcular altura
         alto = (tanque / (largo * ancho)).toInt()
     }
 
-    fun imprimirTamanio(){
-        println("Ancho: $ancho cm "+
-        "Largo: $largo cm " +
-        "Alto: $alto cm")
+    open fun imprimirTamanio() {
 
-        // 1 l = 1000 cm^3
-        println("Volumen: $volumen l")
+        println("Forma: $forma")
+        println("Ancho: $ancho cm")
+        println("Largo: $largo cm")
+        println("Alto: $alto cm")
+        println("Volumen: $volumen litros")
+        println("Agua: $agua litros (${agua / volumen * 100}% lleno)")
     }
+}
 
-    init {
-        println("Inicializando Acuario")
-    }
+class TanqueTorre(
+
+    override var alto: Int,
+    var diametro: Int
+
+) : Acuario(
+
+    alto = alto,
+    largo = diametro,
+    ancho = diametro
+
+) {
+
+    override var forma = "Cilindro"
+
+    override var volumen: Int
+        get() = ((PI * (ancho / 2) * (largo / 2) * alto) / 1000).toInt()
+
+        set(valor) {
+            alto = ((valor * 1000) / (PI * (ancho / 2) * (largo / 2))).toInt()
+        }
+
+    override var agua = volumen * 0.8
 }
